@@ -28,7 +28,7 @@ const loadPictures = async () => request(SERVER_URL + ServerRoute.GET_DATA);
 
 const sendPicture = async (pictureData) =>
   request(
-    SERVER_URL + ServerRoute.POST_DATA,
+    SERVER_URL + ServerRoute.SEND_DATA,
     Method.POST,
     pictureData
   );
