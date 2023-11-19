@@ -1,25 +1,19 @@
 // Вспомогательные функции
 
-const getRandomInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
-};
+const REMOVE_MESSAGE_TIMEOUT = 5000;
 
-const getRandomArrayElement = (items) =>
-  items[getRandomInteger(0, items.length - 1)];
+const errorMessageTemplate = document.querySelector('#data-error').content.querySelector('.data-error');
 
+const showErrorMessage = () => {
+  const errorElement = errorMessageTemplate.cloneNode(true);
+  document.body.append(errorElement);
 
-const createIdGenerator = () => {
-  let lastGenerateId = 0;
-
-  return () => {
-    lastGenerateId += 1;
-    return lastGenerateId;
-  };
+  setTimeout(() => {
+    errorElement.remove();
+  }, REMOVE_MESSAGE_TIMEOUT);
 };
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export { getRandomInteger, getRandomArrayElement, createIdGenerator, isEscapeKey };
+export { showErrorMessage };
+export { isEscapeKey };

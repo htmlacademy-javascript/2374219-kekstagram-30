@@ -33,4 +33,5 @@ const sendPicture = async (pictureData) =>
     pictureData
   );
 
-export { loadPictures, sendPicture };
+export { sendPicture };
+export { loadPictures };
