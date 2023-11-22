@@ -4,6 +4,7 @@ import { resetScale } from './scale.js';
 import { sendPicture } from './api.js';
 import { showSuccessMessage, showErrorMessage } from './message.js';
 
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const MAX_HASHTAG_COUNT = 5;
 const MAX_COMMENT_COUNT = 140;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -15,7 +16,7 @@ const ErrorText = {
 };
 
 const SubmitButtonCaption = {
-  SUBMITING: 'Отправляю...',
+  SUBMITTING: 'Отправляю...',
   IDLE: 'Отправить'
 };
 
@@ -27,10 +28,17 @@ const fileField = form.querySelector('.img-upload__input');
 const hashtagField = form.querySelector('.text__hashtags');
 const commentField = form.querySelector('.text__description');
 const submitButton = form.querySelector('.img-upload__submit');
+const picturePreview = form.querySelector('.img-upload__preview img');
+const effectsPreview = form.querySelectorAll('.effects__preview');
 
 const toggleSubmitButton = (isDisabled) => {
   submitButton.disabled = isDisabled;
-  submitButton.textContent = isDisabled ? SubmitButtonCaption.SUBMITING : SubmitButtonCaption.IDLE;
+  submitButton.textContent = isDisabled ? SubmitButtonCaption.SUBMITTING : SubmitButtonCaption.IDLE;
+};
+
+const isValidType = (file) => {
+  const fileName = file.name.toLowerCase();
+  return FILE_TYPES.some((it) => fileName.endsWith(it));
 };
 
 const pristine = new Pristine(form, {
@@ -69,6 +77,14 @@ const showModal = () => {
 };
 
 const onFileInputChange = () => {
+  const file = fileField.files[0];
+
+  if (file && isValidType(file)) {
+    picturePreview.src = URL.createObjectURL(file);
+    effectsPreview.forEach((preview) => {
+      preview.style.backgroundImage = `url('${picturePreview.src}')`;
+    });
+  }
   showModal();
 };
 
@@ -91,7 +107,6 @@ const normalizeTags = (tagString) => tagString
 const hasValidCount = (value) => normalizeTags(value).length <= MAX_HASHTAG_COUNT;
 
 const hasValidTags = (value) => normalizeTags(value).every((tag) => VALID_SYMBOLS.test(tag));
-
 
 const hasUniqueTags = (value) => {
   const lowerCaseTags = normalizeTags(value).map((tag) => tag.toLowerCase());
