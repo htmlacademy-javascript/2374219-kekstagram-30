@@ -57,7 +57,7 @@ const hidePicture = () => {
   commentsCountShown = 0;
   bigPictureElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
-  document.removeEventListener('keydown, onDocumentKeydown');
+  document.removeEventListener('keydown', onDocumentKeydown);
 };
 
 const onClosePictureButtonClick = () => {

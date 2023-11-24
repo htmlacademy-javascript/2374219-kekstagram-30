@@ -1,3 +1,5 @@
+import { resetScale } from './scale.js';
+
 const Effect = {
   DEFAULT: 'none',
   CHROME: 'chrome',
@@ -94,7 +96,7 @@ const hideSlider = () => {
 };
 
 const onSliderUpdate = () => {
-  effectLevelElement.value = sliderElement.noUiSlider.get();
+  effectLevelElement.setAttribute('value', Number(sliderElement.noUiSlider.get()));
   setImageStyle();
 };
 
@@ -142,6 +144,7 @@ const resetEffect = () => {
 
 const onEffectsChange = (evt) => {
   setEffect(evt.target.value);
+  resetScale();
 };
 
 const initEffect = () => {
