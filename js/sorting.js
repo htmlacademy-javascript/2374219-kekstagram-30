@@ -1,5 +1,5 @@
-import { renderGallery } from './gallery.js';
 import { debounce } from './util.js';
+import {renderThumbnails} from './thumbnail';
 
 const sortingElement = document.querySelector('.img-filters');
 const sortingForm = document.querySelector('.img-filters__form');
@@ -19,8 +19,14 @@ const SortingType = {
 
 const SortingHandlers = {
   [SortingType.DEFAULT]: (pictures) => pictures,
-  [SortingType.RANDOM]: (pictures) => pictures.sort(() => Math.random() - RANDOM_OFFSET).slice(0, MAX_RANDOM_SORTING),
-  [SortingType.DISCUSSED]: (pictures) => [...pictures].sort((item1, item2) => item2.comments.length - item1.comments.length)
+  [SortingType.RANDOM]: (pictures) => {
+    const newPictures = [...pictures];
+    return newPictures.sort(() => Math.random() - RANDOM_OFFSET).slice(0, MAX_RANDOM_SORTING);
+  },
+  [SortingType.DISCUSSED]: (pictures) => {
+    const newPictures = [...pictures];
+    return [...newPictures].sort((item1, item2) => item2.comments.length - item1.comments.length);
+  }
 };
 
 let activeButton = defaultButton;
@@ -39,7 +45,7 @@ const clearContainer = () => {
 const repaint = (filter, pictures) => {
   const sortedPictures = SortingHandlers[filter](pictures);
   clearContainer();
-  renderGallery(sortedPictures);
+  renderThumbnails(sortedPictures);
 };
 
 const debounceRepaint = debounce(repaint, RANDOM_OFFSET);
