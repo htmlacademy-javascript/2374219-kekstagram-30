@@ -1,5 +1,5 @@
 import { isEscapeKey } from './util.js';
-import { init as initEffect, reset as resetEffect } from './filters.js';
+import { initEffect, resetEffect } from './filters.js';
 import { resetScale } from './scale.js';
 import { sendPicture } from './api.js';
 import { showSuccessMessage, showErrorMessage } from './message.js';
@@ -139,7 +139,7 @@ pristine.addValidator(
   validateComment,
   ErrorText.INVALID_COMMENT_COUNT,
   1,
-  false
+  true
 );
 
 pristine.addValidator(
@@ -147,7 +147,7 @@ pristine.addValidator(
   hasValidCount,
   ErrorText.INVALID_COUNT,
   1,
-  false
+  true
 );
 
 pristine.addValidator(
@@ -155,7 +155,7 @@ pristine.addValidator(
   hasValidTags,
   ErrorText.INVALID_PATTERN,
   3,
-  false
+  true
 );
 
 pristine.addValidator(
@@ -163,7 +163,7 @@ pristine.addValidator(
   hasUniqueTags,
   ErrorText.NOT_UNIQUE,
   2,
-  false
+  true
 );
 
 fileField.addEventListener('change', onFileInputChange);

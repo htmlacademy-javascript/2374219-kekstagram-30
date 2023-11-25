@@ -22,7 +22,7 @@ function onDocumentKeydown (evt) {
 }
 
 function onBodyClick (evt) {
-  if (evt.target.closest === '.success__inner' || evt.target.closest === '.error__inner') {
+  if (evt.target.closest('.success__inner') || (evt.target.closest('.error__inner'))) {
     return;
   }
 
