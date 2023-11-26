@@ -1,5 +1,5 @@
 import { debounce } from './util.js';
-import {renderThumbnails} from './thumbnail';
+import { renderThumbnails } from './thumbnail';
 
 const sortingElement = document.querySelector('.img-filters');
 const sortingForm = document.querySelector('.img-filters__form');
@@ -9,7 +9,6 @@ const discussedButton = sortingForm.querySelector('#filter-discussed');
 
 const MAX_RANDOM_SORTING = 10;
 const RANDOM_OFFSET = 0.5;
-const ACTIVE_CLASS = 'img-filters__button--active';
 
 const SortingType = {
   DEFAULT: 'default',
@@ -29,44 +28,28 @@ const SortingHandlers = {
   }
 };
 
-let activeButton = defaultButton;
-
-const currentSortingElement = (button) => {
-  activeButton.classList.remove(ACTIVE_CLASS);
-  button.classList.add(ACTIVE_CLASS);
-  activeButton = button;
-};
-
-const clearContainer = () => {
-  const picturesElement = document.querySelectorAll('.picture');
-  picturesElement.forEach((item) => item.remove());
-};
-
-const repaint = (filter, pictures) => {
+const repaint = (evt, filter, pictures) => {
   const sortedPictures = SortingHandlers[filter](pictures);
-  clearContainer();
+  const picturesElement = document.querySelectorAll('.picture');
+  picturesElement.forEach((picture) => picture.remove());
   renderThumbnails(sortedPictures);
+  const currentSortingElement = document.querySelector('.img-filters__button--active');
+  currentSortingElement.classList.remove('img-filters__button--active');
+  evt.target.classList.add('img-filters__button--active');
 };
 
-const debounceRepaint = debounce(repaint, RANDOM_OFFSET);
+const debounceRepaint = debounce(repaint);
 
 const initSorting = (pictures) => {
   sortingElement.classList.remove('img-filters--inactive');
-  sortingForm.addEventListener('click', (evt) => {
-    const target = evt.target;
-    if (!target.classList.contains('img-filters__button') || target === activeButton) {
-      return;
-    }
-    currentSortingElement(target);
-    if (target === defaultButton) {
-      debounceRepaint(SortingType.DEFAULT, pictures);
-    }
-    if (target === randomButton) {
-      debounceRepaint(SortingType.RANDOM, pictures);
-    }
-    if (target === discussedButton) {
-      debounceRepaint(SortingType.DISCUSSED, pictures);
-    }
+  defaultButton.addEventListener('click', (evt) => {
+    debounceRepaint(evt, SortingType.DEFAULT, pictures);
+  });
+  randomButton.addEventListener('click', (evt) => {
+    debounceRepaint(evt, SortingType.RANDOM, pictures);
+  });
+  discussedButton.addEventListener('click', (evt) => {
+    debounceRepaint(evt, SortingType.DISCUSSED, pictures);
   });
 };
 
