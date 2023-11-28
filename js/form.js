@@ -93,7 +93,7 @@ const onCancelButtonClick = () => {
 };
 
 const validateComment = (value) => {
-  if(value.length <= 140) {
+  if(value.length <= MAX_COMMENT_COUNT) {
     return true;
   }
   return false;
