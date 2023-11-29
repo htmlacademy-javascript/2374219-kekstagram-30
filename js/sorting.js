@@ -24,7 +24,7 @@ const SortingHandlers = {
   },
   [SortingType.DISCUSSED]: (pictures) => {
     const newPictures = [...pictures];
-    return [...newPictures].sort((item1, item2) => item2.comments.length - item1.comments.length);
+    return newPictures.sort((item1, item2) => item2.comments.length - item1.comments.length);
   }
 };
 
