@@ -92,12 +92,7 @@ const onCancelButtonClick = () => {
   hideModal();
 };
 
-const validateComment = (value) => {
-  if(value.length <= MAX_COMMENT_COUNT) {
-    return true;
-  }
-  return false;
-};
+const validateComment = (value) => value.length <= MAX_COMMENT_COUNT;
 
 const normalizeTags = (tagString) => tagString
   .trim()
